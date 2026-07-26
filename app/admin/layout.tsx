@@ -11,6 +11,7 @@ type AdminLayoutProps = { children: ReactNode };
 const menuItems = [
   { label: "Tableau de bord", href: "/admin", icon: "▦" },
   { label: "Commandes", href: "/admin/commandes", icon: "📦" },
+  { label: "Clients", href: "/admin/clients", icon: "👥" },
 ];
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
