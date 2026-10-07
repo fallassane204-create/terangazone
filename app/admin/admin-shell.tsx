@@ -14,6 +14,7 @@ const menuItems = [
   { label: "Catégories", href: "/admin/categories", icon: "▤" },
   { label: "Commandes", href: "/admin/commandes", icon: "📦" },
   { label: "Clients", href: "/admin/clients", icon: "👥" },
+  { label: "Visites", href: "/admin/visites", icon: "↗" },
   { label: "Promotions", href: "/admin/promotions", icon: "%" },
   { label: "Paramètres", href: "/admin/parametres", icon: "⚙" },
 ];

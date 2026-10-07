@@ -3,6 +3,7 @@ import { formatPrice, effectivePrice, promotionActive, whatsappLink } from "@/li
 import type { Catalogue, Service, ShopSettings } from "@/lib/catalogue/types";
 import { ProductImage } from "./product-image";
 import { CatalogueRefresh } from "./catalogue-refresh";
+import { InstallApp } from "./install-app";
 export function Brand({ settings }: { settings: ShopSettings }) {
   return <Link href="/" className="flex min-w-0 items-center gap-3" aria-label={`${settings.name} — Accueil`}>
     {settings.logo_url ? <span className="w-12 shrink-0"><ProductImage key={settings.logo_url} src={settings.logo_url} name={settings.name} compact /></span> : <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 text-lg font-black">TZ</span>}
@@ -10,9 +11,9 @@ export function Brand({ settings }: { settings: ShopSettings }) {
   </Link>;
 }
 export function StoreHeader({ settings }: { settings: ShopSettings }) {
-  return <header className="sticky top-0 z-30 border-b border-white/10 bg-[#050816]/95 backdrop-blur-xl"><div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+  return <><header className="sticky top-0 z-30 border-b border-white/10 bg-[#050816]/95 backdrop-blur-xl"><div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
     <Brand settings={settings} /><nav aria-label="Navigation principale" className="flex flex-wrap items-center gap-2 text-sm font-bold"><Link href="/boutique" className="rounded-xl border border-white/15 px-3 py-3 hover:bg-white/10">Boutique</Link>
-      <a href={whatsappLink(settings.whatsapp_number, `Bonjour ${settings.name}, je souhaite connaître vos offres.`)} target="_blank" rel="noopener noreferrer" className="rounded-xl bg-emerald-500/15 px-3 py-3 text-emerald-300 hover:bg-emerald-500/25">WhatsApp</a></nav></div></header>;
+      <a href={whatsappLink(settings.whatsapp_number, `Bonjour ${settings.name}, je souhaite connaître vos offres.`)} target="_blank" rel="noopener noreferrer" className="rounded-xl bg-emerald-500/15 px-3 py-3 text-emerald-300 hover:bg-emerald-500/25">WhatsApp</a></nav></div></header><InstallApp /></>;
 }
 export function CatalogueNotice({ catalogue }: { catalogue: Catalogue }) {
   const nextPromotionChange = catalogue.services.flatMap((service) => service.promotion_enabled ? [service.promotion_start, service.promotion_end] : [])

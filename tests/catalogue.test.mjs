@@ -59,6 +59,7 @@ test("physical quantity and required order fields are validated", () => {
   const physicalOrder = { ...order, quantity: 2, fields: { adresse: "Adresse de test" } };
   assert.doesNotThrow(() => validateCustomerOrder(physicalOrder, s));
   assert.match(orderMessage(s, settings, physicalOrder), /13\u202f000 FCFA/);
+  assert.match(orderMessage(s, settings, physicalOrder), /Adresse : Adresse de test/);
   assert.throws(() => validateCustomerOrder({ ...order, fields: { unknown: "test" } }, service), /périmées/);
 });
 test("phone text entry allows international numbers and spaces", () => {

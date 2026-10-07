@@ -1,0 +1,11 @@
+# Application TerangaZone et visites
+
+Le manifeste `/manifest.webmanifest` utilise le nom TerangaZone, le monogramme TZ violet/bleu déjà présent dans le site, des icônes PNG de 192 et 512 pixels, une icône maskable et une icône iOS de 180 pixels. `app/favicon.ico` utilise également TZ. Les icônes se régénèrent avec `node scripts/generate-app-icons.mjs`.
+
+Le bouton « Installer TerangaZone » déclenche l’invitation du navigateur lorsqu’elle est disponible. Sinon il explique l’installation sur Android, iOS, Edge et Chrome. Il disparaît en mode application. Il ne demande aucune permission de notification ou de localisation. L’installation est une application web, sans publication dans un magasin d’applications.
+
+Le service worker est enregistré en production. Il utilise uniquement le réseau : aucune donnée de catalogue, commande ou compte n’est stockée dans un cache. Hors connexion, il affiche un message de reconnexion pour les navigations publiques. Les routes administrateur, authentification et API ainsi que les requêtes POST ne sont pas interceptées. Il ne permet pas de commander hors connexion.
+
+Le suivi Web Analytics déjà activé sur le projet reçoit les visites publiques. Le composant supprime les paramètres et fragments d’URL et exclut l’administration, les routes d’authentification et les API. Les historiques antérieurs peuvent encore contenir les visites administrateur. Le menu Administration → Visites ouvre le tableau du projet, qui affiche visiteurs et pages vues pour la période choisie. La consultation demande la connexion au compte Vercel propriétaire ; aucun jeton Vercel n’est exposé dans l’application et aucun abonnement payant n’est ajouté.
+
+Les produits Poutoulou poudre et miel utilisent le champ configurable `delivery_address`, libellé « Adresse / quartier de livraison », obligatoire. La validation de commande existante côté application et base vérifie les champs requis ; le message WhatsApp reprend leur libellé et leur valeur. La configuration a été enregistrée dans l’administration, sans réexécuter les migrations ni changer les tarifs. Les frais et délais sont confirmés selon la localisation, sans montant inventé. Les services numériques rappellent que les accès ou instructions sont transmis après confirmation du paiement.
