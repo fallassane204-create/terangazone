@@ -1,7 +1,8 @@
 "use client";
 
+import { renewalDate } from "@/lib/renewal";
 import { useEffect, useMemo, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { listOrders, updateOrder, removeOrder } from "../actions";
 
 type OrderStatus =
   | "En attente"
@@ -18,6 +19,11 @@ type Order = {
   payment_phone: string | null;
   service_name: string;
   service_price: number;
+  quantity?: number;
+  unit_price?: number | null;
+  customer_notes?: string | null;
+  order_fields?: Record<string, string>;
+  catalogue_snapshot?: { service?: { order_fields?: { key: string; label: string }[] } } | null;
   duration: string | null;
   payment_method: string | null;
   payment_reference: string | null;
@@ -173,11 +179,7 @@ export default function AdminCommandesPage() {
     setLoading(true);
     setErrorMessage("");
     try {
-      const supabase = createClient();
-      const { data, error } = await supabase
-        .from("orders")
-        .select("*")
-        .order("created_at", { ascending: false });
+      const { data, error } = await listOrders();
       if (error) {
         console.error(error);
         setErrorMessage("Impossible de charger les commandes depuis Supabase.");
@@ -193,7 +195,14 @@ export default function AdminCommandesPage() {
   }
 
   useEffect(() => {
-    void loadOrders();
+    let active = true;
+    listOrders().then(({ data, error }) => {
+      if (!active) return;
+      if (error) setErrorMessage("Impossible de charger les commandes depuis Supabase.");
+      else setOrders((data ?? []) as Order[]);
+    }).catch(() => { if (active) setErrorMessage("Impossible de charger les commandes."); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
   }, []);
 
   const filteredOrders = useMemo(() => {
@@ -285,9 +294,8 @@ export default function AdminCommandesPage() {
     setMessage("");
     setErrorMessage("");
     try {
-      const supabase = createClient();
       const deliveredAt = order.status === "Livrée" ? order.delivered_at || new Date().toISOString() : order.delivered_at;
-      const { error } = await supabase.from("orders").update({
+      const { error } = await updateOrder(order.id, {
         status: order.status,
         access_message: order.access_message ?? "",
         account_email: order.account_email?.trim() || null,
@@ -296,7 +304,7 @@ export default function AdminCommandesPage() {
         expiration_date: order.expiration_date || null,
         internal_notes: order.internal_notes?.trim() || null,
         delivered_at: deliveredAt,
-      }).eq("id", order.id);
+      });
       if (error) {
         console.error(error);
         setErrorMessage("La modification n’a pas pu être enregistrée dans Supabase.");
@@ -319,16 +327,12 @@ export default function AdminCommandesPage() {
     setErrorMessage("");
 
     try {
-      const supabase = createClient();
       const paidAt = order.paid_at || new Date().toISOString();
 
-      const { error } = await supabase
-        .from("orders")
-        .update({
+      const { error } = await updateOrder(order.id, {
           status: "Payée",
           paid_at: paidAt,
-        })
-        .eq("id", order.id);
+        });
 
       if (error) {
         console.error(error);
@@ -363,12 +367,9 @@ export default function AdminCommandesPage() {
     setErrorMessage("");
 
     try {
-      const supabase = createClient();
       const deliveredAt = order.delivered_at || new Date().toISOString();
 
-      const { error } = await supabase
-        .from("orders")
-        .update({
+      const { error } = await updateOrder(order.id, {
           status: "Livrée",
           delivered_at: deliveredAt,
           account_email: order.account_email?.trim() || null,
@@ -377,8 +378,7 @@ export default function AdminCommandesPage() {
           expiration_date: order.expiration_date || null,
           access_message: order.access_message ?? "",
           internal_notes: order.internal_notes?.trim() || null,
-        })
-        .eq("id", order.id);
+        });
 
       if (error) {
         console.error(error);
@@ -406,8 +406,7 @@ export default function AdminCommandesPage() {
     setMessage("");
     setErrorMessage("");
     try {
-      const supabase = createClient();
-      const { error } = await supabase.from("orders").delete().eq("id", order.id);
+      const { error } = await removeOrder(order.id);
       if (error) {
         console.error(error);
         setErrorMessage("La commande n’a pas pu être supprimée de Supabase.");
@@ -450,24 +449,9 @@ export default function AdminCommandesPage() {
   }
 
   async function renewOrder(order: Order) {
-    const currentExpiration = order.expiration_date
-      ? new Date(`${order.expiration_date}T12:00:00`)
-      : new Date();
-
-    if (Number.isNaN(currentExpiration.getTime())) {
-      setErrorMessage("La date d’expiration actuelle est invalide.");
-      return;
-    }
-
-    const today = new Date();
-    const baseDate =
-      currentExpiration.getTime() > today.getTime()
-        ? currentExpiration
-        : today;
-
-    baseDate.setMonth(baseDate.getMonth() + 1);
-
-    const nextExpiration = baseDate.toISOString().slice(0, 10);
+    let nextExpiration: string;
+    try { nextExpiration = renewalDate(order.expiration_date, order.duration); }
+    catch (error) { setErrorMessage(error instanceof Error ? error.message : "Renouvellement impossible."); return; }
     const renewedAt = new Date().toISOString();
     const renewalCount = Number(order.renewal_count || 0) + 1;
 
@@ -476,17 +460,13 @@ export default function AdminCommandesPage() {
     setErrorMessage("");
 
     try {
-      const supabase = createClient();
 
-      const { error } = await supabase
-        .from("orders")
-        .update({
+      const { error } = await updateOrder(order.id, {
           expiration_date: nextExpiration,
           status: "Livrée",
           renewed_at: renewedAt,
           renewal_count: renewalCount,
-        })
-        .eq("id", order.id);
+        });
 
       if (error) {
         console.error(error);
@@ -577,6 +557,7 @@ export default function AdminCommandesPage() {
                   </div>
 
                   <div className="mt-6 rounded-[24px] border border-blue-400/15 bg-blue-400/[0.04] p-4 sm:p-5">
+                    {(order.quantity || order.customer_notes || Object.keys(order.order_fields ?? {}).length > 0) && <div className="mb-5 border-b border-white/10 pb-5"><h3 className="font-bold">Informations de commande</h3><p className="mt-2 text-sm text-slate-300">Quantité : {order.quantity ?? 1}{order.unit_price !== null && order.unit_price !== undefined ? ` · Prix unitaire : ${formatPrice(order.unit_price)}` : ""}</p>{order.customer_notes && <p className="mt-2 whitespace-pre-line text-sm leading-6 text-slate-300">Précisions : {order.customer_notes}</p>}{Object.entries(order.order_fields ?? {}).map(([key, value]) => <p key={key} className="mt-2 text-sm text-slate-300">{order.catalogue_snapshot?.service?.order_fields?.find((field) => field.key === key)?.label ?? key} : {value}</p>)}</div>}
                     <h3 className="text-lg font-black text-blue-200">Accès du client</h3>
                     <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                       <label>

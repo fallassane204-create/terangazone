@@ -1,0 +1,41 @@
+ M AGENTS.md
+ M app/admin/clients/page.tsx
+ M app/admin/commandes/page.tsx
+ M app/admin/layout.tsx
+ M app/admin/page.tsx
+ M app/boutique/page.tsx
+ M app/commande/page.tsx
+ M app/connexion-admin/page.tsx
+ M app/globals.css
+ M app/layout.tsx
+ M app/page.tsx
+ M app/paiement/page.tsx
+ M lib/supabase/proxy.ts
+ M next.config.ts
+ M package-lock.json
+ M package.json
+ M tsconfig.json
+?? app/admin/actions.ts
+?? app/admin/admin-shell.tsx
+?? app/admin/catalogue-actions.ts
+?? app/admin/catalogue-ui.tsx
+?? app/admin/categories/
+?? app/admin/orders-dashboard.tsx
+?? app/admin/parametres/
+?? app/admin/promotions/
+?? app/admin/services/
+?? app/api/
+?? app/boutique/catalogue.tsx
+?? app/commande/actions.ts
+?? app/commande/order-form.tsx
+?? app/connexion-admin/actions.ts
+?? app/services/
+?? components/
+?? docs/
+?? lib/admin-auth.ts
+?? lib/catalogue/
+?? lib/renewal.ts
+?? public/services/
+?? scripts/
+?? supabase/
+?? tests/

@@ -1,0 +1,7 @@
+{
+  "inspection": "GET public REST OpenAPI, lecture seule, sans lecture de commandes",
+  "http_status": 401,
+  "schema_confirmed": false,
+  "production_writes": false,
+  "next_step": "Exécuter manuellement supabase/diagnostic-catalogue.sql et vérifier toute table équivalente avant les migrations."
+}

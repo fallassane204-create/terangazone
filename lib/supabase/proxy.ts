@@ -40,14 +40,20 @@ export async function updateSession(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = "/connexion-admin";
     url.searchParams.set("retour", pathname);
-    return NextResponse.redirect(url);
+    const redirectResponse = NextResponse.redirect(url);
+    response.cookies.getAll().forEach((cookie) => redirectResponse.cookies.set(cookie));
+    return redirectResponse;
   }
 
-  if (isLoginRoute && isAuthorizedAdmin) {
+  // Les POST de connexion portent aussi la vérification d'accès serveur.
+  // Les rediriger avant l'action casse la réponse attendue par React.
+  if (isLoginRoute && isAuthorizedAdmin && request.method === "GET") {
     const url = request.nextUrl.clone();
     url.pathname = "/admin";
     url.search = "";
-    return NextResponse.redirect(url);
+    const redirectResponse = NextResponse.redirect(url);
+    response.cookies.getAll().forEach((cookie) => redirectResponse.cookies.set(cookie));
+    return redirectResponse;
   }
 
   return response;

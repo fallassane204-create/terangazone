@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { listOrders } from "../actions";
 
 type OrderStatus =
   | "En attente"
@@ -130,14 +130,8 @@ export default function AdminClientsPage() {
     setErrorMessage("");
 
     try {
-      const supabase = createClient();
 
-      const { data, error } = await supabase
-        .from("orders")
-        .select(
-          "id, order_number, customer_name, customer_phone, service_name, service_price, duration, status, account_email, account_password, profile_name, expiration_date, access_message, paid_at, delivered_at, renewed_at, renewal_count, created_at"
-        )
-        .order("created_at", { ascending: false });
+      const { data, error } = await listOrders();
 
       if (error) {
         console.error(error);
@@ -157,7 +151,14 @@ export default function AdminClientsPage() {
   }
 
   useEffect(() => {
-    void loadClients();
+    let active = true;
+    listOrders().then(({ data, error }) => {
+      if (!active) return;
+      if (error) setErrorMessage("Impossible de charger les commandes depuis Supabase.");
+      else setOrders((data ?? []) as Order[]);
+    }).catch(() => { if (active) setErrorMessage("Impossible de charger les commandes."); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
   }, []);
 
   const clients = useMemo<ClientGroup[]>(() => {

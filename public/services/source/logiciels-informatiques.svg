@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0c1737"/><stop offset=".55" stop-color="#11132f"/><stop offset="1" stop-color="#242058"/></linearGradient>
+  <radialGradient id="glow"><stop stop-color="#8db8ff" stop-opacity=".23"/><stop offset="1" stop-color="#8db8ff" stop-opacity="0"/></radialGradient>
+  <linearGradient id="tile" x2="1" y2="1"><stop stop-color="#27365d"/><stop offset="1" stop-color="#101a39"/></linearGradient></defs>
+  <rect width="1200" height="750" fill="url(#bg)"/><ellipse cx="855" cy="276" rx="450" ry="390" fill="url(#glow)"/>
+  <g fill="none" stroke="#aeb8ff" stroke-opacity=".08"><path d="M-50 610Q520 240 1260 390"/><path d="M-30 643Q520 270 1260 423"/><path d="M-10 676Q520 300 1260 456"/><circle cx="1020" cy="96" r="240"/><circle cx="1020" cy="96" r="290"/></g>
+  <rect x="42" y="42" width="1116" height="666" rx="38" fill="none" stroke="#c1cbff" stroke-opacity=".12"/>
+  <g font-family="Arial,sans-serif"><rect x="78" y="76" width="44" height="44" rx="12" fill="#8172f3"/><text x="100" y="105" text-anchor="middle" font-size="20" font-weight="700" fill="white">TZ</text>
+  <text x="139" y="106" font-size="22" font-weight="700" letter-spacing="3" fill="#cad4ef">TERANGAZONE</text>
+  <g transform="translate(914 300) rotate(-7)"><rect x="-160" y="-160" width="320" height="320" rx="68" fill="#060d20" opacity=".25" transform="translate(0 20)"/><rect x="-160" y="-160" width="320" height="320" rx="68" fill="url(#tile)" stroke="#8db8ff" stroke-opacity=".35" stroke-width="2"/>
+  <g color="#8db8ff" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><rect x="-114" y="-86" width="228" height="172" rx="22"/><path d="M-114-42H114"/><circle cx="-86" cy="-64" r="4"/><circle cx="-68" cy="-64" r="4"/><circle cx="-50" cy="-64" r="4"/><path d="M-48-8L-76 22L-48 52M48-8L76 22L48 52M15-15L-15 59"/></g></g>
+  <rect x="80" y="270" width="58" height="5" rx="2.5" fill="#8db8ff"/>
+  <text x="80" y="332" font-size="20" font-weight="700" letter-spacing="2" fill="#8db8ff">DES OUTILS POUR AVANCER</text>
+  <text x="80" y="426" font-size="48" font-weight="700" letter-spacing="-2" fill="#f3f6ff">Logiciels informatiques</text>
+  <text x="80" y="481" font-size="25" fill="#a9b6d6">Services numériques, simplement.</text>
+  <path d="M80 605H1120" stroke="#aeb8ff" stroke-opacity=".13"/>
+  <circle cx="90" cy="650" r="5" fill="#8db8ff"/><text x="109" y="657" font-size="19" letter-spacing="2" fill="#899abf">SÉLECTION TERANGAZONE</text><text x="1118" y="657" text-anchor="end" font-size="24" fill="#8db8ff">↗</text>
+  </g></svg>

@@ -1,0 +1,99 @@
+
+> terangazone@0.1.0 test
+> node --experimental-strip-types --test tests/*.test.mjs
+
+(node:13324) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/L%E2%80%99homme-Beuzz-Fall/terangazone/lib/catalogue/domain.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\L’homme-Beuzz-Fall\terangazone\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ migration creates the catalogue and preserves historical orders (14174.6565ms)
+✔ generated SQL and initial.json agree for every initial product field (203.3876ms)
+✔ migrations can be repeated without duplicating products or tables (199.67ms)
+✔ seed never overwrites a changed offer or a pre-existing product (205.7321ms)
+✔ browser accounts cannot grant themselves admin rights (32.6961ms)
+✔ registration is idempotent and category rename keeps product association (69.4303ms)
+✔ orders original constraints and all 22 historical column values are preserved (37.1632ms)
+✔ only admin can read sensitive order columns; public receipt never returns credentials (123.857ms)
+✔ inherited PUBLIC privileges cannot allow truncation of orders (15.3271ms)
+✔ anonymous visitor reads the active catalogue but cannot read orders (33.8957ms)
+✔ ordinary authenticated user cannot modify prices or read private orders (60.8817ms)
+✔ admin changes a price and public reads the new value immediately (32.1226ms)
+✔ disabled service and disabled category disappear from public reads (70.0777ms)
+✔ RPC records the current price, notes and immutable service snapshot (120.6808ms)
+✔ forged or stale price cannot create an order (76.6103ms)
+✔ double submission records a single order (63.5923ms)
+✔ direct malicious inserts are denied even with an old permissive policy (17.7021ms)
+✔ SQL and UI promotion calculations agree, including expiry (69.074ms)
+✔ admin can archive without deleting historical orders (34.1817ms)
+✔ non-admin cannot alter shop payment coordinates (10.2493ms)
+✔ payment-coordinate changes reject a pending checkout (93.5856ms)
+✔ disabled services are also rejected by the public order RPC (59.748ms)
+✔ physical orders require extra fields, respect stock and preserve total (73.508ms)
+✔ zero-price commandable offers are refused by PostgreSQL (32.4667ms)
+✔ Storage writes are admin-only even with a legacy permissive policy (85.0143ms)
+✔ image migration retains the public 5 MiB bucket and leaves other buckets unchanged (47.0902ms)
+✔ converted PNG replacement updates the real local products row before deleting its old Storage object (264.7653ms)
+(node:27628) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/L%E2%80%99homme-Beuzz-Fall/terangazone/lib/catalogue/domain.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\L’homme-Beuzz-Fall\terangazone\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ initial prices match the eight requested paid offers without IPTV, Poutoulou or free offers (10.1206ms)
+✔ initial ChatGPT promotion uses 6500 while preserving the 7500 normal price (78.2304ms)
+✔ promotion is effective at start and ends exclusively (0.8569ms)
+✔ disabled, archived and inactive category services are never public (1.7929ms)
+✔ current unit price is shared by display, order and WhatsApp (5.1999ms)
+✔ stale price or payment coordinates require a refresh (8.5158ms)
+✔ invalid prices and promotions are rejected (3.8341ms)
+✔ physical quantity and required order fields are validated (5.3187ms)
+✔ phone text entry allows international numbers and spaces (1.8672ms)
+✔ image and social link validation rejects unsafe schemes (1.7511ms)
+✔ duplicate order-field keys are rejected (8.074ms)
+(node:14436) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/L%E2%80%99homme-Beuzz-Fall/terangazone/lib/catalogue/image-replacement.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\L’homme-Beuzz-Fall\terangazone\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ replacement saves products.image before deleting the previous managed image (10.5774ms)
+✔ a failed save deletes only the new upload and preserves the previous image (0.9568ms)
+✔ a failed upload leaves products.image and the old file untouched (15.3384ms)
+✔ shared images, local assets and external images are preserved (1.537ms)
+✔ cleanup failure keeps the new image saved and returns an explicit warning (1.603ms)
+✔ managed paths must belong to this public bucket with a canonical UUID.webp (1.02ms)
+(node:6168) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/L%E2%80%99homme-Beuzz-Fall/terangazone/lib/password-recovery.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\L’homme-Beuzz-Fall\terangazone\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ password recovery returns to the current production origin, without a fixed localhost URL (3.8208ms)
+(node:22284) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/L%E2%80%99homme-Beuzz-Fall/terangazone/lib/catalogue/products.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\L’homme-Beuzz-Fall\terangazone\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ products columns roundtrip preserves the eight offers and quote semantics (4.4542ms)
+✔ WhatsApp uses the current name and promotional price loaded from products (168.5454ms)
+(node:19480) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/L%E2%80%99homme-Beuzz-Fall/terangazone/lib/renewal.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\L’homme-Beuzz-Fall\terangazone\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ monthly renewal clamps the last day (6.3505ms)
+✔ annual renewal respects the offer duration (0.6434ms)
+✔ expired renewal starts today (0.5515ms)
+✔ one-off services cannot be renewed (3.6286ms)
+✔ invalid dates are rejected (2.6866ms)
+(node:21344) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/L%E2%80%99homme-Beuzz-Fall/terangazone/lib/catalogue/image-upload.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\L’homme-Beuzz-Fall\terangazone\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ all nine original service images and fallback are valid uniform WebP assets (85.9407ms)
+✔ uploaded photo is decoded, resized and reencoded as WebP without metadata (721.6118ms)
+✔ JPG upload is actually encoded as WebP (56.8972ms)
+✔ JPEG upload is actually encoded as WebP (79.1212ms)
+✔ PNG upload is actually encoded as WebP (24.2667ms)
+✔ WEBP upload is actually encoded as WebP (36.0329ms)
+✔ upload rejects spoofed files, SVG and oversized images (31.0748ms)
+ℹ tests 59
+ℹ suites 0
+ℹ pass 59
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19109.3045

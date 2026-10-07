@@ -27,6 +27,7 @@ a {
 button,
 a {
   -webkit-tap-highlight-color: transparent;
+  overflow-wrap: anywhere;
 }
 
 ::selection {
@@ -46,4 +47,17 @@ a {
   border: 2px solid #050816;
   border-radius: 999px;
   background: linear-gradient(#2563eb, #7c3aed);
+}
+/* Keep narrow screens and mobile form controls usable. */
+input, select, textarea { min-width: 0; font-size: 16px; }
+main header > div { flex-wrap: wrap; gap: 12px; padding-top: 12px; padding-bottom: 12px; }
+form, section, label { min-width: 0; }
+p, h1, h2, h3 { overflow-wrap: anywhere; }
+@media (max-width: 359px) { main header a { padding-left: 8px; padding-right: 8px; } }
+
+@layer components {
+  .field { @apply block w-full min-w-0 rounded-xl border border-white/15 bg-[#0b1020] px-4 py-3 text-white outline-none focus:border-blue-400 disabled:cursor-not-allowed disabled:opacity-60; }
+  .label { @apply mb-2 block text-sm font-bold text-slate-300; overflow-wrap: anywhere; }
+  .btn-primary { @apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 px-5 py-3 text-center text-sm font-bold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-secondary { @apply inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-5 py-3 text-center text-sm font-bold transition hover:bg-white/10 disabled:opacity-50; }
 }

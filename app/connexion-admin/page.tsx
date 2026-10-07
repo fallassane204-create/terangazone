@@ -1,35 +1,32 @@
 "use client";
 
-import { FormEvent, Suspense, useState } from "react";
+import { FormEvent, Suspense, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { checkAdminAccess } from "./actions";
 
-const ADMIN_EMAIL = "fallassane204@gmail.com";
+
 
 function ConnexionAdminForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [email, setEmail] = useState(ADMIN_EMAIL);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const submitting = useRef(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (submitting.current) return;
+    submitting.current = true;
     setErrorMessage("");
     setLoading(true);
 
     try {
       const normalizedEmail = email.trim().toLowerCase();
-
-      if (normalizedEmail !== ADMIN_EMAIL) {
-        setErrorMessage(
-          "Ce compte n’est pas autorisé à accéder à l’administration."
-        );
-        return;
-      }
 
       const supabase = createClient();
 
@@ -42,10 +39,15 @@ function ConnexionAdminForm() {
         setErrorMessage("Adresse e-mail ou mot de passe incorrect.");
         return;
       }
+      if (!(await checkAdminAccess())) {
+        await supabase.auth.signOut();
+        setErrorMessage("Ce compte ne dispose pas des droits d’administration.");
+        return;
+      }
 
       const returnPath = searchParams.get("retour");
       const safeReturnPath =
-        returnPath && returnPath.startsWith("/admin")
+        returnPath && (returnPath === "/admin" || returnPath.startsWith("/admin/")) && !returnPath.includes("\\")
           ? returnPath
           : "/admin";
 
@@ -55,6 +57,7 @@ function ConnexionAdminForm() {
       console.error(error);
       setErrorMessage("Une erreur est survenue. Réessayez.");
     } finally {
+      submitting.current = false;
       setLoading(false);
     }
   }
@@ -130,6 +133,7 @@ function ConnexionAdminForm() {
           </button>
         </form>
 
+        <Link href="/mot-de-passe-oublie" className="mt-5 block text-center text-sm font-bold text-blue-300">Mot de passe oublié ?</Link>
         <Link
           href="/"
           className="mt-6 block text-center text-sm font-semibold text-slate-400 transition hover:text-white"
