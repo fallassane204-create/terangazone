@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#09172f"/><stop offset="1" stop-color="#29154d"/></linearGradient><linearGradient id="accent" x2="1" y2="1"><stop stop-color="#60a5fa"/><stop offset="1" stop-color="#c084fc"/></linearGradient></defs>
+<rect width="1200" height="750" fill="url(#bg)"/><circle cx="1050" cy="80" r="210" fill="#7c3aed" opacity=".13"/><circle cx="130" cy="670" r="190" fill="#2563eb" opacity=".14"/>
+<g fill="none" stroke="url(#accent)" stroke-width="14" stroke-linejoin="round"><path d="M440 250l35-65h250l35 65h85a35 35 0 0135 35v215a35 35 0 01-35 35H355a35 35 0 01-35-35V285a35 35 0 0135-35z"/><circle cx="600" cy="375" r="110"/><circle cx="600" cy="375" r="72" stroke-width="7"/><path d="M777 292h40" stroke-linecap="round"/></g>
+<text x="80" y="92" fill="#a5b4fc" font-family="Arial,sans-serif" font-size="24" letter-spacing="6">TERANGAZONE</text><text x="600" y="632" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="58" font-weight="700">Shooting photo</text><text x="600" y="685" text-anchor="middle" fill="#a5b4fc" font-family="Arial,sans-serif" font-size="28">Votre séance, selon vos envies</text>
+</svg>

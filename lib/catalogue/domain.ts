@@ -34,6 +34,10 @@ export function whatsappNumber(value: string) {
 export function whatsappLink(number: string, text: string) {
   return `https://wa.me/${whatsappNumber(number)}?text=${encodeURIComponent(text)}`;
 }
+export function quoteRequestLink(service: Service, settings: ShopSettings) {
+  if (!service.is_active || service.archived_at || service.price !== null) return null;
+  return whatsappLink(settings.whatsapp_number, `Bonjour ${settings.name}, je souhaite un devis pour ${service.name}. Pouvez-vous m’aider à préciser mon besoin et me proposer un tarif adapté ?`);
+}
 export function safeImageUrl(value: string | null) {
   if (!value) return true;
   if (value.startsWith("/") && !value.startsWith("//") && !value.includes("\\")) return true;

@@ -1,12 +1,24 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { effectivePrice, promotionActive, publicServices, validateService, validateSettings, validateCustomerOrder, assertFreshPrice, orderMessage, whatsappLink, safeImageUrl } from "../lib/catalogue/domain.ts";
+import { effectivePrice, promotionActive, publicServices, validateService, validateSettings, validateCustomerOrder, assertFreshPrice, orderMessage, whatsappLink, safeImageUrl, quoteRequestLink } from "../lib/catalogue/domain.ts";
 const initial = JSON.parse(await readFile(new URL("../lib/catalogue/initial.json", import.meta.url), "utf8"));
 const service = initial.services.find((s) => s.name === "ChatGPT");
 const settings = initial.settings;
 const now = "2026-10-06T12:00:00Z";
 const order = { service_id: service.id, expected_price: service.price, service_updated_at: null, settings_updated_at: null, customer_name: "Client de test", customer_phone: "+221 77 000 00 00", payment_method: "Wave", payment_phone: "770000000", payment_reference: "REF-é&+", notes: "é & + ?", quantity: 1, fields: {}, request_id: "a4c57bc1-1ef1-4a02-96f3-bc8df0e999ab" };
+
+test("quote requests use the configured WhatsApp and service name without a free price or direct order", () => {
+  const quote = { ...service, name: "Shooting photo", price: null, old_price: null, promotion_enabled: false, whatsapp_enabled: false };
+  assert.doesNotThrow(() => validateService(quote));
+  const url = new URL(quoteRequestLink(quote, settings));
+  assert.equal(url.hostname, "wa.me"); assert.equal(url.pathname, "/221781108729");
+  assert.match(url.searchParams.get("text"), /devis pour Shooting photo/);
+  assert.doesNotMatch(url.searchParams.get("text"), /FCFA|gratuit/i);
+  assert.equal(quoteRequestLink(service, settings), null);
+  assert.equal(quoteRequestLink({ ...quote, is_active: false }, settings), null);
+  assert.equal(quoteRequestLink({ ...quote, archived_at: now }, settings), null);
+});
 test("initial prices match the eight requested paid offers without IPTV, Poutoulou or free offers", () => {
   assert.deepEqual(Object.fromEntries(initial.services.map((s) => [s.name, s.price])), { Netflix: 5000, "Prime Video": 5000, "Disney+": 11000, ChatGPT: 6500, "Canva Pro": 15000, "Spotify Premium": 3500, "CapCut Pro": 6500, "Monétisation TikTok": 15000 });
   initial.services.forEach((s) => assert.doesNotThrow(() => validateService(s)));

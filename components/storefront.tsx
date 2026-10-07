@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { formatPrice, effectivePrice, promotionActive, whatsappLink } from "@/lib/catalogue/domain";
+import { formatPrice, effectivePrice, promotionActive, whatsappLink, quoteRequestLink } from "@/lib/catalogue/domain";
 import type { Catalogue, Service, ShopSettings } from "@/lib/catalogue/types";
 import { ProductImage } from "./product-image";
 import { CatalogueRefresh } from "./catalogue-refresh";
@@ -23,12 +23,13 @@ export function CatalogueNotice({ catalogue }: { catalogue: Catalogue }) {
 export function ServicePrice({ service, now, className = "" }: { service: Service; now: string; className?: string }) {
   return <div className={className}>{promotionActive(service, now) && <div className="mb-1 text-sm text-slate-400"><span className="sr-only">Prix normal : </span><del>{formatPrice(service.old_price)}</del></div>}<p className="text-2xl font-black text-blue-300">{formatPrice(effectivePrice(service, now))}</p><p className="mt-1 text-xs text-slate-400">{service.billing_period}{service.unit ? ` · ${service.unit}` : ""}</p></div>;
 }
-export function ServiceCard({ service, category, now }: { service: Service; category?: string; now: string }) {
+export function ServiceCard({ service, settings, category, now }: { service: Service; settings: ShopSettings; category?: string; now: string }) {
   const available = service.whatsapp_enabled && service.price !== null && service.price > 0 && (service.kind !== "physical" || service.stock !== 0);
+  const quoteUrl = quoteRequestLink(service, settings);
   return <article className="flex min-w-0 flex-col rounded-[28px] border border-white/10 bg-white/[0.045] p-5 transition hover:border-blue-400/40"><Link href={`/services/${service.slug}`} aria-label={`Découvrir ${service.name}`}><ProductImage key={service.image_url} src={service.image_url} name={service.name} icon={service.icon} /></Link>
     <div className="mt-4 flex flex-wrap gap-2 text-xs"><span className="text-slate-400">{category}</span>{promotionActive(service, now) && <span className="rounded-full bg-emerald-400/10 px-2 text-emerald-300">Promotion</span>}{service.is_featured && <span className="text-blue-300">Produit vedette</span>}</div>
     <h2 className="mt-2 text-xl font-black"><Link href={`/services/${service.slug}`}>{service.name}</Link></h2><p className="mt-3 flex-1 text-sm leading-6 text-slate-400">{service.short_description}</p><ServicePrice service={service} now={now} className="mt-5" />
-    <div className="mt-5 flex flex-wrap gap-2"><Link href={`/services/${service.slug}`} className="rounded-xl border border-white/15 px-3 py-3 text-sm font-bold hover:bg-white/10">Détails</Link>{available ? <Link href={`/commande?service=${service.id}`} className="flex-1 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 px-3 py-3 text-center text-sm font-bold">{service.button_text}</Link> : <span className="flex-1 rounded-xl bg-white/5 px-3 py-3 text-center text-sm text-slate-400">Indisponible</span>}</div>
+    <div className="mt-5 flex flex-wrap gap-2"><Link href={`/services/${service.slug}`} className="rounded-xl border border-white/15 px-3 py-3 text-sm font-bold hover:bg-white/10">Détails</Link>{quoteUrl ? <a href={quoteUrl} target="_blank" rel="noopener noreferrer" className="flex-1 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 px-3 py-3 text-center text-sm font-bold">Demander un devis</a> : available ? <Link href={`/commande?service=${service.id}`} className="flex-1 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 px-3 py-3 text-center text-sm font-bold">{service.button_text}</Link> : <span className="flex-1 rounded-xl bg-white/5 px-3 py-3 text-center text-sm text-slate-400">Indisponible</span>}</div>
   </article>;
 }
 export function StoreFooter({ settings }: { settings: ShopSettings }) {

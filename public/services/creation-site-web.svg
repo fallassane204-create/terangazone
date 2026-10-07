@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#09172f"/><stop offset="1" stop-color="#29154d"/></linearGradient><linearGradient id="accent" x2="1" y2="1"><stop stop-color="#60a5fa"/><stop offset="1" stop-color="#c084fc"/></linearGradient></defs>
+<rect width="1200" height="750" fill="url(#bg)"/><circle cx="1050" cy="80" r="210" fill="#7c3aed" opacity=".13"/><circle cx="130" cy="670" r="190" fill="#2563eb" opacity=".14"/>
+<g fill="none" stroke="url(#accent)" stroke-width="12" stroke-linejoin="round"><rect x="285" y="180" width="630" height="350" rx="30"/><path d="M285 247h630"/><path d="M530 307l-68 68 68 68m140-136l68 68-68 68m-35-153l-70 170" stroke-linecap="round"/></g><g fill="#93c5fd"><circle cx="322" cy="213" r="8"/><circle cx="352" cy="213" r="8"/><circle cx="382" cy="213" r="8"/></g>
+<text x="80" y="92" fill="#a5b4fc" font-family="Arial,sans-serif" font-size="24" letter-spacing="6">TERANGAZONE</text><text x="600" y="632" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="58" font-weight="700">Création de site web</text><text x="600" y="685" text-anchor="middle" fill="#a5b4fc" font-family="Arial,sans-serif" font-size="28">Un site adapté à votre projet</text>
+</svg>
